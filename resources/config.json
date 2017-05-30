@@ -1,0 +1,11 @@
+{
+  "development": {
+    "db": {
+      "hostname": "localhost",
+      "port": 5432,
+      "database": "car_data",
+      "user": "postgres",
+      "pass": "postgres"
+    }
+  }
+}
