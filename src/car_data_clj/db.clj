@@ -51,6 +51,27 @@
 
 (hugsql/set-adapter! (AdapterWrapper. (adp/hugsql-adapter-clojure-java-jdbc)))
 
+;; Converts Postgres arrays (array_agg) into vectors
+;; http://stackoverflow.com/questions/6055629/clojure-how-to-convert-jdbc4array-into-clojures-seq
+(extend-protocol clojure.java.jdbc/IResultSetReadColumn
+  org.postgresql.jdbc.PgArray
+  (result-set-read-column [pgobj metadata i]
+    (vec (.getArray pgobj))))
+
+(extend-protocol clojure.java.jdbc/IResultSetReadColumn
+  org.postgresql.util.PGobject
+  (result-set-read-column [pgobj metadata i]
+    (let [type  (.getType pgobj)
+          value (.getValue pgobj)]
+      (case type
+        "jsonb" (json/read-str value)
+        :else value))))
+
+(defn map->jsonb [m]
+  (doto (PGobject.)
+    (.setType "jsonb")
+    (.setValue (json/write-str m))))
+
 (defmacro def-db-fns [n]
   `(hugsql/def-db-fns ~n))
 
