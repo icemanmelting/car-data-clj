@@ -1,3 +1,6 @@
+-- :name get-car-settings :query :one
+SELECT * FROM car_settings WHERE id=:id;
+
 -- :name update-carsettings :execute :affected
 UPDATE car_settings
 SET constant_kilometers = :constant_km,
