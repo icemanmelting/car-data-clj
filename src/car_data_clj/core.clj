@@ -13,7 +13,7 @@
   (>!! data-buffer req))
 
 (defn read-settings [id]
-  (let [[ok? settings] (get-car-settings db {:id})]
+  (let [[ok? settings] (get-car-settings db {:id id})]
     (when (and ok? settings)
       settings)))
 
