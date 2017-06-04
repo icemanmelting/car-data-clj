@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS car_settings CASCADE;
 CREATE TABLE IF NOT EXISTS car_settings (
-  id BIGINT,
+  id UUID,
   constant_kilometers DOUBLE PRECISION,
   trip_kilometers DOUBLE PRECISION,
   trip_initial_fuel_level DOUBLE PRECISION,
