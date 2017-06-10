@@ -1,6 +1,9 @@
 -- :name get-car-settings :query :one
 SELECT * FROM car_settings WHERE id=:id;
 
+-- :name create-settings :execute :affected
+INSERT INTO car_settings(id, constant_kilometers, trip_kilometers) VALUES (:id, :cnst_km, :trip_km);
+
 -- :name update-carsettings :execute :affected
 UPDATE car_settings
 SET constant_kilometers = :constant_km,

@@ -20,6 +20,7 @@
 (defn- treat-data [rec]
   (let [op-type (:op_type rec)]
     (cond
+      (.equals "car_settings_new" op-type) (create-settings db (dissoc rec :op_type))
       (.equals "car_settings_up" op-type) (update-carsettings db (dissoc rec :op_type))
       (.equals "car_log_new" op-type) (create-log db (dissoc rec :op_type))
       (.equals "car_trip_new" op-type) (insert-car-trip db (dissoc rec :op_type))

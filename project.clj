@@ -1,4 +1,4 @@
-(defproject car-data-clj "1.0.0-RC"
+(defproject car-data-clj "1.0.1"
   :description "Clojure Library to read car data from DB"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
