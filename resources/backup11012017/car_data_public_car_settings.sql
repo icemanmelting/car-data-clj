@@ -1,0 +1,1 @@
+INSERT INTO public.car_settings (id, constant_kilometers, trip_kilometers, trip_initial_fuel_level, average_fuel_consumption, dashboard_type, tyre_offset, next_oil_change) VALUES ('51aa2df9-fe23-4503-b71f-74514ae6f0f0', 25128.669561868224, 0, 0, 0, 'kadett', 1, 0);
