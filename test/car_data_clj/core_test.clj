@@ -1,7 +1,7 @@
 (ns car-data-clj.core-test
   (:require [clojure.test :refer :all]
             [car-data-clj.core :refer :all]
-            [car-data-clj.db :as db :refer :all]))
+            [car-data-clj.db.postgres :refer :all]))
 
 (defn clear-ks []
   (clear-car-trips db))
@@ -19,8 +19,7 @@
                          :id trip-id
                          :starting_km 0}))
       (Thread/sleep 1000)
-      (let [[ok? res] (select-car-trip db {:id trip-id})]
-        (is ok?)
+      (let [[res _] (select-car-trip db {:id trip-id})]
         (is (= trip-id (:id res))))))
   (testing "update trip"
     (let [trip-id (uuid)]
@@ -31,8 +30,7 @@
                          :id trip-id
                          :ending_km 200.0}))
       (Thread/sleep 1000)
-      (let [[get-ok? get-res] (select-car-trip db {:id trip-id})]
-        (is get-ok?)
+      (let [[get-res _] (select-car-trip db {:id trip-id})]
         (is (= 200.0 (:ending_km get-res)))))))
 
 (deftest test-car-log-insertion
@@ -43,16 +41,13 @@
                          :id trip-id
                          :starting_km 0}))
       (Thread/sleep 1000)
-      (let [[get-ok? get-res] (select-car-trip db {:id trip-id})]
-        (is get-ok?))
       (is (make-request {:op_type "car_log_new"
                          :id log-id
                          :trip_id trip-id
                          :msg "message"
                          :log_level "ERROR"}))
       (Thread/sleep 1000)
-      (let [[ok? res] (select-log db {:id log-id})]
-        (is ok?)
+      (let [[res _] (select-log db {:id log-id})]
         (is (= trip-id (:trip_id res)))
         (is (= "message" (:message res)))
         (is (= "ERROR" (:log_level res)))))))
@@ -65,8 +60,6 @@
                          :id trip-id
                          :starting_km 0}))
       (Thread/sleep 1000)
-      (let [[get-ok? get-res] (select-car-trip db {:id trip-id})]
-        (is get-ok?))
       (is (make-request {:op_type "car_speed_new"
                          :id speed-id
                          :trip_id trip-id
@@ -74,8 +67,7 @@
                          :rpm 4000
                          :gear 0}))
       (Thread/sleep 1000)
-      (let [[ok? res] (get-speed-data db {:id speed-id})]
-        (is ok?)
+      (let [[res _] (get-speed-data db {:id speed-id})]
         (is (= trip-id (:trip_id res)))
         (is (= 0.0 (:speed res)))
         (is (= 4000.0 (:rpm res)))
@@ -89,16 +81,11 @@
                          :id trip-id
                          :starting_km 0}))
       (Thread/sleep 1000)
-      (let [[get-ok? get-res] (select-car-trip db {:id trip-id})]
-        (is get-ok?))
       (is (make-request {:op_type "car_temp_new"
                          :id temp-id
                          :trip_id trip-id
                          :val 50.0}))
       (Thread/sleep 1000)
-      (let [[ok? res] (get-temp-data db {:id temp-id})]
-        (is ok?)
+      (let [[res _] (get-temp-data db {:id temp-id})]
         (is (= trip-id (:trip_id res)))
         (is (= 50.0 (:value res)))))))
-
-(run-tests)

@@ -1,1 +1,1 @@
-(ns car-cpu-clj.rest-api.temp-data)
+(ns car-data-clj.rest-api.temp-data)

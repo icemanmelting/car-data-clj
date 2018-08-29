@@ -1,7 +1,23 @@
 (ns car-data-clj.config
-  (:require [clojure.java.io :as io]
-            [clojure.data.json :as json]))
+  (:require [clojure.java.io :refer [resource as-file]]
+            [aero.core :refer [read-config]]))
 
-(def data (let [res (io/resource "config.json")
-                env (keyword (or (System/getenv "car-data-clj") "development"))]
-            (env (json/read-str (slurp res) :key-fn keyword))))
+(set! *warn-on-reflection* true)
+
+(def profile (keyword (System/getenv "CAR_DATA_ENV")))
+
+(defn read-from-file [f & ks]
+  (let [c (read-config f {:profile profile})]
+    (if (seq ks)
+      (get-in c ks)
+      c)))
+
+(defn read-from-resource [res & ks]
+  (apply read-from-file (resource res) ks))
+
+(defn read-from-file-or-resource [n & ks]
+  (if (-> n as-file .exists)
+    (apply read-from-file n ks)
+    (apply read-from-resource n ks)))
+
+(def db (read-from-resource "db.edn"))

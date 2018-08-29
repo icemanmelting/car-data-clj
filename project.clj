@@ -6,5 +6,13 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/core.async "0.3.442"]
+                 [aero "1.1.2"]
                  [org.postgresql/postgresql "42.1.1"]
-                 [com.layerware/hugsql "0.4.5"]])
+                 [com.layerware/hugsql "0.4.5"]
+                 [log4j/apache-log4j-extras "1.2.17"]
+                 [org.clojure/tools.logging "0.4.0"]
+                 [http-kit "2.2.0"]
+                 [compojure "1.6.1" :exclusions [clj-time]]
+                 [prismatic/schema "1.1.3"]
+                 [ring/ring-json "0.4.0" :exclusions [clj-time]]
+                 [ring-cors "0.1.9"]])

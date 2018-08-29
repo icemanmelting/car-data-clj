@@ -63,3 +63,13 @@ CREATE TABLE IF NOT EXISTS car_logs (
   FOREIGN KEY (trip_id) REFERENCES car_trips (id),
   PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS car_positions CASCADE;
+CREATE TABLE IF NOT EXISTS car_positions (
+  id UUID,
+  pos_lat DOUBLE PRECISION,
+  pos_lon DOUBLE PRECISION,
+  created TIMESTAMP,
+  
+  PRIMARY KEY (id)
+);
