@@ -1,4 +1,4 @@
-(ns car-data-clj.db.postgres
+(ns car-data-clj.db.postgresql
   (:require [hugsql.core :as hugsql]
             [hugsql.adapter.clojure-java-jdbc :as adp]
             [clojure.data.json :as json]

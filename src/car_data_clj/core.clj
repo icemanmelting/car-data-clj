@@ -1,5 +1,5 @@
 (ns car-data-clj.core
-  (:require [car-data-clj.db.postgres :refer :all]
+  (:require [car-data-clj.db.postgresql :refer :all]
             [clojure.core.async :as a :refer [<! >!! go go-loop thread chan]]))
 
 (def-db-fns "car_logs.sql")

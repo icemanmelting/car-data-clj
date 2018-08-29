@@ -1,7 +1,7 @@
 (ns car-data-clj.core-test
   (:require [clojure.test :refer :all]
             [car-data-clj.core :refer :all]
-            [car-data-clj.db.postgres :refer :all]))
+            [car-data-clj.db.postgresql :refer :all]))
 
 (defn clear-ks []
   (clear-car-trips db))

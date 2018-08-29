@@ -15,4 +15,5 @@
                  [compojure "1.6.1" :exclusions [clj-time]]
                  [prismatic/schema "1.1.3"]
                  [ring/ring-json "0.4.0" :exclusions [clj-time]]
-                 [ring-cors "0.1.9"]])
+                 [ring-cors "0.1.9"]]
+  :profiles {:dev {:dependencies [[ring-mock/ring-mock "0.1.5"]]}})

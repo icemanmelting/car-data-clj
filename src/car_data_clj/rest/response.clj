@@ -1,4 +1,4 @@
-(ns car-data-clj.rest-api.response
+(ns car-data-clj.rest.response
   (:require [cheshire.core :as json]
             [ring.util.response :refer [content-type]])
   (:import (java.util Date)))
