@@ -5,7 +5,8 @@
             [ring.middleware.json :as json]
             [ring.middleware.params :refer [wrap-params]]
             [car-data-clj.rest.response :refer [error]]
-            [car-data-clj.rest.car-logs :as cl]))
+            [car-data-clj.rest.car-logs :as cl]
+            [car-data-clj.rest.car-settings :as cs]))
 
 (defn- wrap-json-body [h]
   (json/wrap-json-body h {:keywords? true
@@ -17,7 +18,8 @@
                   :access-control-allow-methods [:get :put :post :delete :options]))
 
 (defroutes car-data-routes
-  (GET cl/get-by-trip-route [] (-> cl/get-by-trip wrap-params)))
+  (GET cl/get-by-trip-route [] (-> cl/get-by-trip wrap-params))
+  (GET cs/get-by-id-route [] (-> cs/get-by-id wrap-params)))
 
 (defroutes app
   (-> (routes car-data-routes) wrap-json-body wrap-cors))

@@ -14,3 +14,6 @@ SET constant_kilometers = :constant_km,
   --~ (when (contains? params :tyre_offset) ",tyre_offset=:tyre_offset")
   --~ (when (contains? params :next_oil_change) ",next_oil_change=:next_oil_change")
   WHERE id = :id;
+
+--:name clear-car-settings :execute :affected
+TRUNCATE TABLE car_settings CASCADE;
