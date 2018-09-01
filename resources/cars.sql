@@ -1,8 +1,11 @@
--- :name get-car-settings :query :one
-SELECT * FROM car_settings WHERE id=:id;
+-- :name get-car :query :one
+SELECT * FROM cars WHERE id=:id;
 
--- :name update-carsettings :execute :affected
-UPDATE car_settings
+-- :name create-car :execute :affected
+INSERT INTO cars(id, constant_kilometers, trip_kilometers) VALUES (:id, :cnst_km, :trip_km);
+
+-- :name update-car :execute :affected
+UPDATE cars
 SET constant_kilometers = :constant_km,
   trip_kilometers = :trip_km
   --~ (when (contains? params :trip_init_f) ",trip_initial_fuel_level=:trip_init_f")
@@ -11,3 +14,6 @@ SET constant_kilometers = :constant_km,
   --~ (when (contains? params :tyre_offset) ",tyre_offset=:tyre_offset")
   --~ (when (contains? params :next_oil_change) ",next_oil_change=:next_oil_change")
   WHERE id = :id;
+
+--:name clear-cars :execute :affected
+TRUNCATE TABLE cars CASCADE;
