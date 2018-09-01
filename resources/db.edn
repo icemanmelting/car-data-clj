@@ -1,0 +1,5 @@
+{:postgresql #profile {:default {:hostname "127.0.0.1"
+                                 :port 5432
+                                 :database "car_data"
+                                 :user "postgres"
+                                 :password "postgres"}}}
