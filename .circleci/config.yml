@@ -42,7 +42,7 @@ jobs: # basic units of work in a run
           done
           echo Failed waiting for Postgres && exit 1
 
-    - run: psql -U postgres -h localhost -p 5432 -d contacts_api_test -a -f ~/car-data-clj/resources/schema.sql
+    - run: psql -U postgres -h localhost -p 5432 -d car_data -a -f ~/car-data-clj/resources/schema.sql
 
     - run: lein do test, uberjar
 
