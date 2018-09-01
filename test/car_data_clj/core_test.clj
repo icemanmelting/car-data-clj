@@ -1,13 +1,18 @@
 (ns car-data-clj.core-test
   (:require [clojure.test :refer :all]
             [car-data-clj.core :refer :all]
-            [car-data-clj.db.postgresql :refer :all]))
+            [car-data-clj.db.postgresql :refer :all]
+            [car-data-clj.web-setup :refer [clear-ks setup-session owner]]))
 
-(defn clear-ks []
-  (clear-car-trips db))
+(def ^:private car-id (uuid))
+
+(defn- setup-car []
+  (create-car db {:id car-id :owner owner :cnst_km 3000 :trip_km 10}))
 
 (defn clear-ks-fixture [f]
   (clear-ks)
+  (setup-session)
+  (setup-car)
   (f))
 
 (use-fixtures :each clear-ks-fixture)
@@ -17,6 +22,7 @@
     (let [trip-id (uuid)]
       (is (make-request {:op_type "car_trip_new"
                          :id trip-id
+                         :car_id car-id
                          :starting_km 0}))
       (Thread/sleep 1000)
       (let [[res _] (select-car-trip db {:id trip-id})]
@@ -25,6 +31,7 @@
     (let [trip-id (uuid)]
       (is (make-request {:op_type "car_trip_new"
                          :id trip-id
+                         :car_id car-id
                          :starting_km 0}))
       (is (make-request {:op_type "car_trip_up"
                          :id trip-id
@@ -39,6 +46,7 @@
           log-id (uuid)]
       (is (make-request {:op_type "car_trip_new"
                          :id trip-id
+                         :car_id car-id
                          :starting_km 0}))
       (Thread/sleep 1000)
       (is (make-request {:op_type "car_log_new"
@@ -58,6 +66,7 @@
           speed-id (uuid)]
       (is (make-request {:op_type "car_trip_new"
                          :id trip-id
+                         :car_id car-id
                          :starting_km 0}))
       (Thread/sleep 1000)
       (is (make-request {:op_type "car_speed_new"
@@ -79,6 +88,7 @@
           temp-id (uuid)]
       (is (make-request {:op_type "car_trip_new"
                          :id trip-id
+                         :car_id car-id
                          :starting_km 0}))
       (Thread/sleep 1000)
       (is (make-request {:op_type "car_temp_new"

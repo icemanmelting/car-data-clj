@@ -1,6 +1,26 @@
-DROP TABLE IF EXISTS car_settings CASCADE;
-CREATE TABLE IF NOT EXISTS car_settings (
+DROP TABLE IF EXISTS users CASCADE;
+CREATE TABLE users (
+  login VARCHAR(128),
+  password CHAR(64),
+  salt VARCHAR(64),
+
+  PRIMARY KEY (login)
+);
+
+DROP TABLE IF EXISTS sessions CASCADE;
+CREATE TABLE sessions (
   id UUID,
+  login VARCHAR(128) NOT NULL,
+  seen TIMESTAMP NOT NULL,
+
+  PRIMARY KEY (id),
+  FOREIGN KEY (login) REFERENCES users (login)
+);
+
+DROP TABLE IF EXISTS cars CASCADE;
+CREATE TABLE IF NOT EXISTS cars (
+  id UUID,
+  owner VARCHAR(128),
   constant_kilometers DOUBLE PRECISION,
   trip_kilometers DOUBLE PRECISION,
   trip_initial_fuel_level DOUBLE PRECISION,
@@ -9,12 +29,14 @@ CREATE TABLE IF NOT EXISTS car_settings (
   tyre_offset DOUBLE PRECISION,
   next_oil_change DOUBLE PRECISION,
 
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  FOREIGN KEY (owner) REFERENCES users (login)
 );
 
 DROP TABLE IF EXISTS car_trips CASCADE;
 CREATE TABLE IF NOT EXISTS car_trips (
   id UUID,
+  car_id UUID,
   starting_km DOUBLE PRECISION,
   ending_km DOUBLE PRECISION,
   trip_length_km DOUBLE PRECISION,
@@ -25,7 +47,8 @@ CREATE TABLE IF NOT EXISTS car_trips (
   trip_duration DOUBLE PRECISION,
   average_speed DOUBLE PRECISION,
 
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  FOREIGN KEY (car_id) REFERENCES cars(id)
 );
 
 DROP TABLE IF EXISTS speed_data CASCADE;

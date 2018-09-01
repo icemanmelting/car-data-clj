@@ -5,7 +5,7 @@
 
 (def-db-fns "car_logs.sql")
 
-(def get-by-trip-route "/car-logs/trips/:id")
+(def get-by-trip-route "/car/trips/:id/logs")
 
 (defn get-by-trip [{{:keys [id]} :params}]
   (let [[_ err] (validate uuid-str id)]

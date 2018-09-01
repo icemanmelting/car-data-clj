@@ -3,37 +3,44 @@
             [clojure.core.async :as a :refer [<! >!! go go-loop thread chan]]))
 
 (def-db-fns "car_logs.sql")
-(def-db-fns "car_settings.sql")
+(def-db-fns "cars.sql")
 (def-db-fns "car_trips.sql")
-(def-db-fns "data.sql")
+(def-db-fns "car_data.sql")
 
 (def ^:private data-buffer (chan 10))
 
 (defn make-request [req]
   (>!! data-buffer req))
 
-(defn read-settings [id]
-  (let [[ok? settings] (get-car-settings db {:id id})]
-    (when (and ok? settings)
-      settings)))
+(defn read-car [id]
+  (let [[ok? car] (get-car db {:id id})]
+    (when (and ok? car)
+      car)))
 
-(defn- treat-data [rec]
-  (let [op-type (:op_type rec)]
-    (cond
-      (.equals "car_settings_new" op-type) (create-settings db (dissoc rec :op_type))
-      (.equals "car_settings_up" op-type) (update-carsettings db (dissoc rec :op_type))
-      (.equals "car_log_new" op-type) (create-log db (dissoc rec :op_type))
-      (.equals "car_trip_new" op-type) (insert-car-trip db (dissoc rec :op_type))
-      (.equals "car_trip_up" op-type) (update-car-trip db (dissoc rec :op_type))
-      (.equals "car_speed_new" op-type) (create-speed-data db (dissoc rec :op_type))
-      (.equals "car_temp_new" op-type) (create-temperature-data db (dissoc rec :op_type)))))
+(defmulti treat-data (fn [rec] (:op_type rec)))
+
+(defmethod treat-data "car_new" [rec]
+  (create-car db (dissoc rec :op_type)))
+
+(defmethod treat-data "car_up" [rec]
+  (update-car db (dissoc rec :op_type)))
+
+(defmethod treat-data "car_log_new" [rec]
+  (create-log db (dissoc rec :op_type)))
+
+(defmethod treat-data "car_trip_new" [rec]
+  (insert-car-trip db (dissoc rec :op_type)))
+
+(defmethod treat-data "car_trip_up" [rec]
+  (update-car-trip db (dissoc rec :op_type)))
+
+(defmethod treat-data "car_speed_new" [rec]
+  (create-speed-data db (dissoc rec :op_type)))
+
+(defmethod treat-data "car_temp_new" [rec]
+  (create-temperature-data db (dissoc rec :op_type)))
 
 (go-loop []
   (when-let [rec (<! data-buffer)]
     (treat-data rec))
   (recur))
-
-
-
-
-
