@@ -13,8 +13,8 @@
   (>!! data-buffer req))
 
 (defn read-car [id]
-  (let [[ok? car] (get-car db {:id id})]
-    (when (and ok? car)
+  (let [[car err] (get-car db {:id id})]
+    (when-not err
       car)))
 
 (defmulti treat-data (fn [rec] (:op_type rec)))

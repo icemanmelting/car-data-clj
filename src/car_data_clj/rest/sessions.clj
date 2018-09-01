@@ -55,7 +55,10 @@
   (fn [r]
     (if-let [id (uuid-from-header r)]
       (if-let [s (lookup id)]
-        (if (live? s)
+        (do
+          (touch id)
+          (handler (assoc r :session s)))
+        #_(if (live? s)
           (do
             (touch id)
             (handler (assoc r :session s)))
