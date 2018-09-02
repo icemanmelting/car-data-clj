@@ -1,6 +1,9 @@
 -- :name get-car :query :one
 SELECT * FROM cars WHERE id=:id;
 
+-- :name get-cars :query :many
+SELECT id FROM cars;
+
 -- :name create-car :execute :affected
 INSERT INTO cars(id, constant_kilometers, trip_kilometers) VALUES (:id, :cnst_km, :trip_km);
 
