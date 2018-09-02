@@ -29,7 +29,7 @@
   (testing "correct values returned"
 
     (do (set-authorized-requests!)
-        (web-run :get (str "/car/trips/" trip-id)))
+        (web-run :get (str "/cars/" car-id "/trips/" trip-id)))
 
     (let [{:keys [id starting_km]} (extract-body)]
 

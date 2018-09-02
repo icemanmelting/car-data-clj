@@ -7,7 +7,7 @@
 
 (def-db-fns "cars.sql")
 
-(defn- new-settings [id cnst-km trip-km]
+(defn- new-car [id cnst-km trip-km]
   (create-car db {:id id
                   :cnst_km cnst-km
                   :trip_km trip-km}))
@@ -23,7 +23,7 @@
 
   (testing "correct values returned"
 
-    (new-settings car-id 99999 1000)
+    (new-car car-id 99999 1000)
 
     (do (set-authorized-requests!)
         (web-run :get (str "/cars/" car-id)))
@@ -34,3 +34,17 @@
                  id (str car-id)
                  trip_kilometers 1000.0
                  constant_kilometers 99999.0))))
+
+(deftest cars-present
+
+  (testing "correct values returned"
+
+    (new-car (uuid) 99999 1000)
+    (new-car (uuid) 99999 1000)
+
+    (do (set-authorized-requests!)
+        (web-run :get "/cars"))
+
+    (let [body (extract-body)]
+
+      (is (= 2 (count body))))))

@@ -44,7 +44,7 @@
   (testing "correct values returned trip 1"
 
     (do (set-authorized-requests!)
-        (web-run :get (str "/car/trips/" trip-id-1 "/temperature")))
+        (web-run :get (str "/trips/" trip-id-1 "/temperature")))
 
     (let [body (extract-body)
           temp-data-count (count body)
@@ -58,7 +58,7 @@
   (testing "correct values returned trip 2"
 
     (do (set-authorized-requests!)
-        (web-run :get (str "/car/trips/" trip-id-2 "/temperature")))
+        (web-run :get (str "/trips/" trip-id-2 "/temperature")))
 
     (let [body (extract-body)
           temp-data-count (count body)]

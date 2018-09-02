@@ -25,7 +25,7 @@
                          :car_id car-id
                          :starting_km 0}))
       (Thread/sleep 1000)
-      (let [[res _] (select-car-trip db {:id trip-id})]
+      (let [[res _] (select-car-trip db {:id trip-id :car_id car-id})]
         (is (= trip-id (:id res))))))
   (testing "update trip"
     (let [trip-id (uuid)]
@@ -37,7 +37,7 @@
                          :id trip-id
                          :ending_km 200.0}))
       (Thread/sleep 1000)
-      (let [[get-res _] (select-car-trip db {:id trip-id})]
+      (let [[get-res _] (select-car-trip db {:id trip-id :car_id car-id})]
         (is (= 200.0 (:ending_km get-res)))))))
 
 (deftest test-car-log-insertion

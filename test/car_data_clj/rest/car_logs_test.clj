@@ -45,7 +45,7 @@
   (testing "correct values returned"
 
     (do (set-authorized-requests!)
-        (web-run :get (str "/car/trips/" trip-id-1 "/logs")))
+        (web-run :get (str "/trips/" trip-id-1 "/logs")))
 
     (let [body (extract-body)
           logs-count (count body)
@@ -59,7 +59,7 @@
   (testing "correct values returned"
 
     (do (set-authorized-requests!)
-        (web-run :get (str "/car/trips/" trip-id-2 "/logs")))
+        (web-run :get (str "/trips/" trip-id-2 "/logs")))
 
     (let [body (extract-body)
           logs-count (count body)

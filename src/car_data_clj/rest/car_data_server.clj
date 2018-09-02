@@ -10,6 +10,7 @@
             [car-data-clj.rest.car-trips :as ct]
             [car-data-clj.rest.speed-data :as csd]
             [car-data-clj.rest.temp-data :as ctd]
+            [car-data-clj.rest.positions :as cp]
             [car-data-clj.rest.sessions :refer [authorize] :as sessions]))
 
 (defn- wrap-json-body [h]
@@ -24,9 +25,12 @@
 (defroutes car-data-routes
   (GET cl/get-by-trip-route [] (-> cl/get-by-trip wrap-params authorize))
   (GET cs/get-by-id-route [] (-> cs/get-by-id wrap-params authorize))
+  (GET cs/get-all-route [] (-> cs/get-all authorize))
   (GET ct/get-by-id-route [] (-> ct/get-by-id wrap-params authorize))
   (GET csd/get-by-trip-route [] (-> csd/get-by-trip wrap-params authorize))
-  (GET ctd/get-by-trip-route [] (-> ctd/get-by-trip wrap-params authorize)))
+  (GET ctd/get-by-trip-route [] (-> ctd/get-by-trip wrap-params authorize))
+  (GET cp/get-latest-route [] (-> cp/get-latest wrap-params authorize))
+  (GET cp/get-last-positions-route [] (-> cp/get-last wrap-params authorize)))
 
 (defroutes session-routes
   (GET "/session" [] (authorize sessions/find-one))

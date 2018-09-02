@@ -6,6 +6,7 @@
 (def-db-fns "cars.sql")
 (def-db-fns "car_trips.sql")
 (def-db-fns "car_data.sql")
+(def-db-fns "car_positions.sql")
 
 (def ^:private data-buffer (chan 10))
 
@@ -39,6 +40,9 @@
 
 (defmethod treat-data "car_temp_new" [rec]
   (create-temperature-data db (dissoc rec :op_type)))
+
+(defmethod treat-data "car_pos_new" [rec]
+  (create-position db (dissoc rec :op_type)))
 
 (go-loop []
   (when-let [rec (<! data-buffer)]

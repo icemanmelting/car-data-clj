@@ -7,6 +7,8 @@
 
 (def get-by-id-route "/cars/:id")
 
+(def get-all-route "/cars")
+
 (defn get-by-id [{{:keys [id]} :params}]
   (let [[_ err] (validate uuid-str id)]
     (if-not err
@@ -15,3 +17,9 @@
           (json :ok res)
           (error :unprocessable-entity (str err "Problem retrieving data"))))
       (error :unprocessable-entity (humanize-error err)))))
+
+(defn get-all [_]
+  (let [[res err] (get-cars db)]
+    (if-not err
+      (json :ok res)
+      (error :unprocessable-entity (str err "Problem retrieving data")))))

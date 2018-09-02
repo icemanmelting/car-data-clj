@@ -90,9 +90,11 @@ CREATE TABLE IF NOT EXISTS car_logs (
 DROP TABLE IF EXISTS car_positions CASCADE;
 CREATE TABLE IF NOT EXISTS car_positions (
   id UUID,
+  car_id UUID,
   pos_lat DOUBLE PRECISION,
   pos_lon DOUBLE PRECISION,
   created TIMESTAMP,
   
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  FOREIGN KEY (car_id) REFERENCES cars(id)
 );

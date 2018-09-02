@@ -1,5 +1,5 @@
 -- :name select-car-trip :query :one
-SELECT * FROM car_trips WHERE id=:id;
+SELECT * FROM car_trips WHERE id=:id AND car_id=:car_id;
 
 -- :name insert-car-trip :execute :affected
 INSERT INTO car_trips (id, car_id, starting_km, start_time) VALUES (:id, :car_id, :starting_km, NOW());
