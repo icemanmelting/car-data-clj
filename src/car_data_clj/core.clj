@@ -6,7 +6,7 @@
 (def-db-fns "cars.sql")
 (def-db-fns "car_trips.sql")
 (def-db-fns "car_data.sql")
-(def-db-fns "car_positions")
+(def-db-fns "car_positions.sql")
 
 (def ^:private data-buffer (chan 10))
 
